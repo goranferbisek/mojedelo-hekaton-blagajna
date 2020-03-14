@@ -38,4 +38,4 @@ Izhod:
 ```
 
 ## Pogosto zastavljena vprašanja
-Več vprašanj je na voljo v [FAQ](docs/FAQ.md)
+Več vprašanj je na voljo v [FAQ](FAQ.md)
