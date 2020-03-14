@@ -36,3 +36,6 @@ Izhod:
 8
 8
 ```
+
+## Pogosto zastavljena vprašanja
+Več vprašanj je na voljo v [FAQ](docs/FAQ.md)
