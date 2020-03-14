@@ -19,10 +19,12 @@ class Blagajna {
             while ( (line = reader.readLine()) != null) {
                 matcher = pattern.matcher(line);
 
-                if (matcher.groupCount() != 3) {
-                    System.out.println("Parsing did not succeed");
+                if (matcher.matches()) {
+                    System.out.println(matcher.group(1));
+                    System.out.println(matcher.group(2));
+                    System.out.println(matcher.group(3));
                 } else {
-                    System.out.println("Let's get it on");
+                    System.out.println("Parsing did not succeed");
                 }
             }
 
