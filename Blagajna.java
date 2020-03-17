@@ -27,6 +27,8 @@ class Blagajna {
                             Integer.parseInt(matcher.group(2)),
                             matcher.group(3));
 
+                    //TODO: find max pixel size here and decrement it does not fit
+
                     //later we write to a file
                     System.out.println(pixelSize);
                 } else {
@@ -110,5 +112,9 @@ class Blagajna {
             }
         }
         return maxLength;
+    }
+
+    private static boolean doesItFit() {
+        return false;
     }
 }
