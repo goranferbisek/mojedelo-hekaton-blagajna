@@ -9,11 +9,11 @@ class Blagajna {
     public static void main(String[] args) {
         try {
             BufferedReader reader = new BufferedReader(
-            new FileReader(new File("vhodi.txt")));
+                new FileReader(new File("vhodi.txt")));
 
             String line;
 
-            //regex pattern (row length) (rows) (text)
+            // regex pattern (row length) (rows) (text)
             Pattern pattern = Pattern.compile("(\\d+)\\s(\\d+)\\s(.+)");
             Matcher matcher;
             int pixelSize;
@@ -22,89 +22,63 @@ class Blagajna {
                 matcher = pattern.matcher(line);
 
                 if (matcher.matches()) {
-                    pixelSize = pixelSize(
-                            Integer.parseInt(matcher.group(1)),
-                            Integer.parseInt(matcher.group(2)),
-                            matcher.group(3));
+                    pixelSize = getPixelSize(
+                                    Integer.parseInt(matcher.group(1)),
+                                    Integer.parseInt(matcher.group(2)),
+                                    matcher.group(3));
 
-                    //later we write to a file
                     System.out.println(pixelSize);
                 } else {
                     System.out.println("Parsing failed");
                 }
             }
-
             reader.close();
         } catch (IOException e) {
             e.getMessage();
         }
     }
 
-    private static int pixelSize(int rowLength, int rows, String text) {
-        String[] words = textToArray(text);
+    private static int getPixelSize(int rowLength, int rows, String text) {
+        String[] words = text.split(" ");
 
         int maxStringLen = longestStringLength(words);
-        int maxSize = rowLength / maxStringLen;
+        int maxPixelSize = rowLength / maxStringLen;
 
-        // if longest word is longer than row lenght
         if (maxStringLen > rowLength) {
             return 0;
         }
 
-        //try to put text on to display
-        while (maxSize > 0) {
-            if (fitsOnDisplay(rowLength, rows, words, maxSize)) {
-                return maxSize;
+        // try to put text on to display
+        while (maxPixelSize > 0) {
+            if (fitsOnDisplay(rowLength, rows, words, maxPixelSize)) {
+                return maxPixelSize;
             } else {
-                maxSize--;
+                maxPixelSize--;
             }
         }
 
         return 0;
     }
 
-    private static String[] textToArray(String text) {
-        return text.split(" ");
-    }
-
-    private static int longestStringLength(String[] words) {
-        int maxLength = 0;
-
-        for (String word: words) {
-            if (word.length() > maxLength) {
-                maxLength = word.length();
-            }
-        }
-        return maxLength;
-    }
-
-    private static boolean fitsOnDisplay(
-                                int rowLength,
-                                int rows,
-                                String[] words,
-                                int pixelSize) {
-        int remainingRows;
-        int currentRowLength;
-
+    private static boolean fitsOnDisplay(int rowLength, int rows, String[] words, int pixelSize) {
         // scale dimensions
         rowLength /= pixelSize;
-        remainingRows = rows / pixelSize;
+        int remainingRows = rows / pixelSize;
 
-        currentRowLength = rowLength;
+        int currentRowLength = rowLength;
         boolean isNewLine = true;
-
         int wordCount = 0;
         String word = null;
 
         while (wordCount < words.length) {
             word = words[wordCount];
-            // if first word in row
+
             if (isNewLine) {
                 currentRowLength -= word.length();
                 wordCount++;
                 isNewLine = false;
             } else {
-                // if next word fits to row add one for space
+                // +1 for whitespace
                 if (word.length() + 1 <= currentRowLength) {
                     currentRowLength -= word.length() + 1;
                     wordCount++;
@@ -119,7 +93,17 @@ class Blagajna {
                 }
             }
         }
-
         return true;
+    }
+
+    private static int longestStringLength(String[] words) {
+        int maxLength = 0;
+
+        for (String word : words) {
+            if (word.length() > maxLength) {
+                maxLength = word.length();
+            }
+        }
+        return maxLength;
     }
 }
